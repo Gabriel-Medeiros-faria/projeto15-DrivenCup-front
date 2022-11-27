@@ -8,15 +8,10 @@ export default function ProductCart(props){
     const {token} = useContext(AuthContext)
     
     function DeleteItem(){
-        const config = {
-            headers: { "Authorization": `Bearer ${token}`}
-        }
-        const body = {
-            productId: id
-        }
-        console.log(config)
-        console.log(body)
-        const promisse = axios.delete("http://localhost:5000/carts", config, body)
+        const headers = { "Authorization": `Bearer ${token}`}
+        const data = { productId: id}        
+
+        const promisse = axios.delete("http://localhost:5000/carts", { headers, data })
         promisse.then((resp)=>console.log(resp))
         promisse.catch((err)=>console.log(err))
     }
