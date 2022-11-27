@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router"
 import styled from "styled-components"
@@ -5,13 +6,22 @@ import styled from "styled-components"
 export default function SignUp() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [confirmPassword, setConfirmPassword] = useState("")
+    const [confirmThePassword, setConfirmThePassword] = useState("")
     const [name, setName] = useState("")
     const navigate = useNavigate()
 
     function ConfirmPurchase(e) {
         e.preventDefault()
-        if(name && email && password && confirmPassword && password === confirmPassword){
+        if(name && email && password && confirmThePassword && password === confirmThePassword){
+            const body = {
+                name,
+                email,
+                password,
+                confirmThePassword
+            }
+            const promisse = axios.post(`http://localhost:5000/users`, body)
+            promisse.then((resp)=>console.log(resp))
+            promisse.catch((err)=>console.log(err))
             navigate("/")
         }
     }
@@ -28,7 +38,7 @@ export default function SignUp() {
                             <input placeholder="Nome" required onChange={(e) => setName(e.target.value)}></input>
                             <input placeholder="E-mail" type={"email"} required onChange={(e) => setEmail(e.target.value)}></input>
                             <input placeholder="Senha" type={"password"} required onChange={(e) => setPassword(e.target.value)}></input>
-                            <input placeholder="Confirmar senha" type={"password"} required onChange={(e) => setConfirmPassword(e.target.value)}></input>
+                            <input placeholder="Confirmar senha" type={"password"} required onChange={(e) => setConfirmThePassword(e.target.value)}></input>
                             <button className="continue">Cadastrar</button>
                         </form>
                     </Inputs>

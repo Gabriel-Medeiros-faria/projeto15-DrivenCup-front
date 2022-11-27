@@ -1,17 +1,35 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate } from "react-router"
 import styled from "styled-components"
+import axios from "axios"
+import { AuthContext } from "../Context/Auth"
 
 export default function SignIn() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const { setToken } = useContext(AuthContext)
     const navigate = useNavigate()
-
 
     function ConfirmPurchase(e) {
         e.preventDefault()
-        if(email && password){
-            navigate("/Home")
+        if( email && password){
+            const body = {
+                email,
+                password,
+            }
+            const promisse = axios.post(`http://localhost:5000/login`, body)
+            promisse.then((resp)=>{
+                console.log(resp.data)
+                setToken(resp.data.token)
+                navigate("/Home")
+            })
+            promisse.catch((err)=>{
+                console.log(err)
+                if(err.response.status === 401){
+                    alert("Credenciais incorretas")
+                }
+            })
+            
         }
     }
 
