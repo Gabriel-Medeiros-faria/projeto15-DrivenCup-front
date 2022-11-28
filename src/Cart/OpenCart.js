@@ -3,32 +3,56 @@ import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../Context/Auth"
 import ProductCart from "./ProductCart"
 import axios from "axios"
+import { useNavigate } from "react-router"
 
-export default function OpenCart(){
-    const {setOpenCart, token} = useContext(AuthContext)
+export default function OpenCart() {
+    const { setOpenCart, token } = useContext(AuthContext)
     const [arrCart, setArrCart] = useState([])
-    console.log(arrCart)
-    
-    useEffect(()=>{
+    const navigate = useNavigate()
+    const {payment, setPayment, setIdCart} = useContext(AuthContext)
+    console.log(token)
+
+    useEffect(() => {
         const config = {
-            headers: { "Authorization": `Bearer ${token}`  }
+            headers: { "Authorization": `Bearer ${token}` }
         }
         const promisse = axios.get("http://localhost:5000/carts", config)
-        promisse.then((resp)=>{
+        promisse.then((resp) => {
             console.log(resp)
             setArrCart(resp.data.products)
+            setIdCart(resp.data._id)
         })
-        promisse.catch((err)=>console.log(err))
-    },[])
+        promisse.catch((err) => console.log(err))
+    }, [arrCart])
 
-    return(
+    function FinalizeOrder() {
+        if(payment !== ""){
+            navigate("/Checkout")
+        }
+        else{
+            alert("Escolha um método de pagamento")
+        }
+        
+    }
+
+    return (
         <>
             <OpenCartContainer>
-                {arrCart.map((obj)=>
-                <ProductCart img={obj.image} price={obj.price} amount={obj.amount} name={obj.name} id={obj.productId}/>)}
+                {arrCart.length !== 0 ?
+                    <>
+                        {arrCart.map((obj) =>
+                            <ProductCart img={obj.image} price={obj.price} amount={obj.amount} name={obj.name} id={obj.productId} />)}</>
+                    :
+                    <p className="none">Nenhum produto no carrinho</p>}
                 <div className="buttons">
-                    <button className="Finalizar">Finalizar pedido</button>
-                    <p className="back" onClick={(() => setOpenCart(false))}>Continuar comprando</p>
+                    {arrCart.length !== 0 ?
+                        <>
+                            <div className="paymentMethod">
+                                <button className={payment === "Money"? "Money green":"Money"} onClick={()=> setPayment("Money")}>Dinheiro</button>
+                                <button className={payment === "Card"? "Card green":"Card"} onClick={()=> setPayment("Card")}>Cartão</button>
+                            </div>
+                            <button className="Finalizar" onClick={() => FinalizeOrder()}>Finalizar pedido</button>
+                            <p className="back" onClick={(() => setOpenCart(false))}>Continuar comprando</p></> : <p className="back" onClick={(() => setOpenCart(false))}>Continuar comprando</p>}
                 </div>
             </OpenCartContainer>
         </>
@@ -87,5 +111,44 @@ overflow-y: scroll;
 	position:relative;
 	top:1px;
 }
+.paymentMethod{
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
+    .Money{
+    font-family: 'Barlow Condensed';
+    width: 120px;
+    height: 50px;
+    font-size: 30px;
+    background-color: white;
+    border: none;
+    box-shadow: 2px 2px 10px -1px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    :hover{
+        cursor: pointer;
+    }
+    }
+    .Card{
+        font-family: 'Barlow Condensed';
+        width: 120px;
+        height: 50px;
+        font-size: 30px;
+        background-color: white;
+        border: none;
+        box-shadow: 2px 2px 10px -1px rgba(0, 0, 0, 0.5);
+        border-radius: 5px;
+        :hover{
+        cursor: pointer;
+        }
+    }
+    .green{
+        background-color: green;
+    }
+}
+}
+
+.none{
+    font-size: 40px;
+    margin-top: 30px;
 }
 `

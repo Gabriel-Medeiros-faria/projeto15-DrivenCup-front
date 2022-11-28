@@ -50,6 +50,20 @@ export default function ProductPage() {
         if(qtd < 2){
             return
         }
+        const config = {
+            headers: { "Authorization": `Bearer ${token}` }
+        }
+        const body = {
+            productId: id,
+            amount: qtd
+        }
+        const promisse = axios.put("http://localhost:5000/carts", body, config)
+        promisse.then((resp)=>{
+            console.log(resp)
+        })
+        promisse.catch((err)=>{
+            console.log(err)
+        })
         setQtd(qtd - 1)
     }
 

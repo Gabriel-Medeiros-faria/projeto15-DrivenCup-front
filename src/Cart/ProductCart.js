@@ -23,7 +23,7 @@ export default function ProductCart(props){
                 </div>
                 <div className="textsProduct">
                     <p className="caracterProduct">{name} | {amount} unidade(s)</p>
-                    <p>R${price},00</p>
+                    <p>R${price * amount},00</p>
                     <ion-icon name="trash-outline" className="trash" onClick={()=>DeleteItem()}></ion-icon>
                 </div>
 
@@ -57,5 +57,8 @@ ion-icon{
     position: absolute;
     right: 10px;
     top: 10px;
+    :hover{
+        cursor: pointer;
+    }
 }
 `
