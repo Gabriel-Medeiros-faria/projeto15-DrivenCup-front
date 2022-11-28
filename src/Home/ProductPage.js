@@ -12,14 +12,14 @@ export default function ProductPage() {
     const [price, setPrice] = useState()
     const [name, setName] = useState("")
     const { id } = useParams()
-    const { token, openCart, qtd, setQtd, arrCart, setArrCart } = useContext(AuthContext)
+    const { token, openCart, qtd, setQtd, arrCart} = useContext(AuthContext)
     console.log(arrCart)
     
     useEffect(() => {
         const config = {
             headers: { "Authorization": `Bearer ${token}` }
         }
-        const promisse = axios.get(`http://localhost:5000/products/${id}`, config)
+        const promisse = axios.get(`https://drivencup.onrender.com/products/${id}`, config)
         promisse.then((resp) => {
             console.log(resp)
             setDescription(resp.data.description)
@@ -38,7 +38,7 @@ export default function ProductPage() {
                 productId: id,
                 amount: qtd
             }
-            const promisse = axios.put("http://localhost:5000/carts", body, config)
+            const promisse = axios.put("https://drivencup.onrender.com/carts", body, config)
             promisse.then((resp)=>{
                 console.log(resp)
             })
@@ -46,6 +46,7 @@ export default function ProductPage() {
                 console.log(err)
             })
     }
+    
     function SubQtd(){
         if(qtd < 2){
             return
@@ -57,7 +58,7 @@ export default function ProductPage() {
             productId: id,
             amount: qtd
         }
-        const promisse = axios.put("http://localhost:5000/carts", body, config)
+        const promisse = axios.put("https://drivencup.onrender.com/carts", body, config)
         promisse.then((resp)=>{
             console.log(resp)
         })

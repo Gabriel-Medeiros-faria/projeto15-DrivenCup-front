@@ -16,7 +16,7 @@ export default function OpenCart() {
         const config = {
             headers: { "Authorization": `Bearer ${token}` }
         }
-        const promisse = axios.get("http://localhost:5000/carts", config)
+        const promisse = axios.get("https://drivencup.onrender.com/carts", config)
         promisse.then((resp) => {
             console.log(resp)
             setArrCart(resp.data.products)
@@ -41,7 +41,7 @@ export default function OpenCart() {
                 {arrCart.length !== 0 ?
                     <>
                         {arrCart.map((obj) =>
-                            <ProductCart img={obj.image} price={obj.price} amount={obj.amount} name={obj.name} id={obj.productId} />)}</>
+                            <ProductCart img={obj.image} price={obj.price} amount={obj.amount} name={obj.name} id={obj._id} />)}</>
                     :
                     <p className="none">Nenhum produto no carrinho</p>}
                 <div className="buttons">

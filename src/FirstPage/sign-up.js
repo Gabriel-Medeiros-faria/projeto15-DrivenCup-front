@@ -17,9 +17,9 @@ export default function SignUp() {
                 name,
                 email,
                 password,
-                confirmThePassword
+                confirmedPassword: confirmThePassword
             }
-            const promisse = axios.post(`http://localhost:5000/users`, body)
+            const promisse = axios.post(`https://drivencup.onrender.com/users`, body)
             promisse.then((resp)=>console.log(resp))
             promisse.catch((err)=>console.log(err))
             navigate("/")

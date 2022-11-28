@@ -10,8 +10,8 @@ export default function ProductCart(props){
     function DeleteItem(){
         const headers = { "Authorization": `Bearer ${token}`}
         const data = { productId: id}        
-
-        const promisse = axios.delete("http://localhost:5000/carts", { headers, data })
+        console.log(data)
+        const promisse = axios.delete("https://drivencup.onrender.com/carts", { headers, data })
         promisse.then((resp)=>console.log(resp))
         promisse.catch((err)=>console.log(err))
     }

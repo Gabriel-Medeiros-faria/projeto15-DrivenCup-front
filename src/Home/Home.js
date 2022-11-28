@@ -20,7 +20,7 @@ export default function Home() {
     }
     
     useEffect(()=> {
-        const promisse = axios.get("http://localhost:5000/products", config)
+        const promisse = axios.get("https://drivencup.onrender.com/products", config)
         promisse.then((resp)=> {
             console.log(resp)
             setProducts(resp.data)

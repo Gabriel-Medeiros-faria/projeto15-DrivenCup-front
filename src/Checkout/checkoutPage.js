@@ -21,7 +21,7 @@ export default function CheckoutPage(){
             payment: payment,
             cartId:idCart
         }
-        const promisse = axios.post("http://localhost:5000/purchases",body, config)
+        const promisse = axios.post("https://drivencup.onrender.com/purchases",body, config)
         promisse.then((resp)=> {
             console.log(resp)
             setName(resp.data.name)
@@ -39,7 +39,7 @@ export default function CheckoutPage(){
         const body = {
             cartId:idCart
         }
-        const promisse = axios.post("http://localhost:5000/carts", body, config)
+        const promisse = axios.post("https://drivencup.onrender.com/carts", body, config)
         promisse.then((resp)=>console.log(resp))
         promisse.catch((err)=>console.log(err))
         navigate("/ThanksPage")
